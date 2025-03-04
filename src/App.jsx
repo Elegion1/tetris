@@ -150,26 +150,39 @@ function App() {
   const handleResume = () => setIsPaused(false);
 
   return (
-    <div className="App">
-      <div id='nextPiece'>
-        <p>NEXT</p>
-        <div id='piece'>
-          <Tetromino shape={nextTetromino.shape} color={nextTetromino.color} position={{ x: -1.5, y: 2 }} />
+    <>
+      <div className="App">
+        <div id='nextPiece'>
+          <p>NEXT</p>
+          <div id='piece'>
+            <Tetromino shape={nextTetromino.shape} color={nextTetromino.color} position={{ x: -1.5, y: 2 }} />
+          </div>
+        </div>
+        <div id="game-container">
+          <Grid grid={grid} gridWidth={gridWidth} />
+          <Tetromino shape={tetromino.shape} color={tetromino.color} position={position} />
+        </div>
+        <div id='controls'>
+          <div id='score'>
+            <p>SCORE</p>
+            <p>{score}</p>
+          </div>
+          <button id='pauseBtn' onClick={handlePause}>Pause</button>
+          <button id='resumeBtn' onClick={handleResume}>Resume</button>
         </div>
       </div>
-      <div id="game-container">
-        <Grid grid={grid} gridWidth={gridWidth} />
-        <Tetromino shape={tetromino.shape} color={tetromino.color} position={position} />
-      </div>
-      <div id='controls'>
-        <button id='pauseBtn' onClick={handlePause}>Pause</button>
-        <button id='resumeBtn' onClick={handleResume}>Resume</button>
-        <div id='score'>
-          <p>SCORE</p>
-          <p>{score}</p>
+      <div id='mobile-controls'>
+        <div>
+          <button onClick={() => moveTetromino('left')}>Left</button>
+          <button onClick={() => moveTetromino('right')}>Right</button>
+        </div>
+        <div>
+          <button onClick={() => moveTetromino('down')}>Down</button>
+          <button onClick={rotateTetromino}>Rotate</button>
         </div>
       </div>
-    </div>
+
+    </>
   );
 }
 
