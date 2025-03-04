@@ -12,8 +12,8 @@ const Grid = ({ grid, gridWidth }) => {
       id="grid-container"
       style={{
         display: 'grid',
-        gridTemplateColumns: `repeat(${gridWidth}, 30px)`,
-        gridTemplateRows: `repeat(${grid.length}, 30px)`,
+        gridTemplateColumns: `repeat(${gridWidth}, 20px)`,
+        gridTemplateRows: `repeat(${grid.length}, 20px)`,
         gap: '1px',
       }}
     >
@@ -24,8 +24,8 @@ const Grid = ({ grid, gridWidth }) => {
             className="grid-cell"
             style={{
               backgroundColor: block || 'white',
-              width: '30px',
-              height: '30px',
+              width: '20px',
+              height: '20px',
               border: '1px solid #ccc',
             }}
           ></div>

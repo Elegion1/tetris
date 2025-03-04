@@ -13,10 +13,10 @@ const Tetromino = ({ shape, color, position }) => {
                   key={`${x}-${y}`}
                   style={{
                     position: 'absolute',
-                    left: `${((position.x + x) * 31) + 0}px`,
-                    top: `${((position.y + y) * 31) + 0}px`,
-                    width: '30px',
-                    height: '30px',
+                    left: `${((position.x + x) * 21) + 0}px`,
+                    top: `${((position.y + y) * 21) + 0}px`,
+                    width: '20px',
+                    height: '20px',
                     backgroundColor: color,
                     border: '1px solid #ccc',
                   }}
