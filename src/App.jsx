@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Grid from './components/Grid';
 import Tetromino from './components/Tetromino';
+import HoldButton from './components/HoldButton';
 
 const tetrominos = {
   I: { shape: [[1, 1, 1, 1]], color: 'cyan' },
@@ -127,7 +128,7 @@ function App() {
 
   useEffect(() => {
     if (isPaused) return;
-    const interval = setInterval(moveTetrominoDown, 1000 - (score / 100));
+    const interval = setInterval(moveTetrominoDown, 500 - (score / 100));
     return () => clearInterval(interval);
   }, [tetromino, position, moveTetrominoDown, isPaused]);
 
@@ -146,42 +147,68 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [moveTetromino, rotateTetromino, checkCollision]);
 
-  const handlePause = () => setIsPaused(true);
-  const handleResume = () => setIsPaused(false);
+  // Uniamo pausa e ripresa
+  const togglePause = () => {
+    setIsPaused((prev) => !prev);
+  };
 
+  // Uniamo start e restart
+  const [gameStarted, setGameStarted] = useState(false);
+
+  function resetGame() {
+    setGrid(createEmptyGrid());
+    setTetromino(getRandomTetromino());
+    setNextTetromino(getRandomTetromino());
+    setPosition({ x: Math.floor(gridWidth / 2) - 1, y: 0 });
+    setScore(0);
+    setIsPaused(false);
+    setGameStarted(true);                                // Segna che il gioco è iniziato
+  }
   return (
     <>
       <div className="App">
-        
+
         <div id="game-container">
           <Grid grid={grid} gridWidth={gridWidth} />
           <Tetromino shape={tetromino.shape} color={tetromino.color} position={position} />
         </div>
         <div id='controls'>
+
           <div id='nextPiece'>
-          <p>NEXT</p>
-          <div id='piece'>
-            <Tetromino shape={nextTetromino.shape} color={nextTetromino.color} position={{ x: -1.5, y: 2 }} />
+            <p>NEXT</p>
+            <div id='piece'>
+              <Tetromino shape={nextTetromino.shape} color={nextTetromino.color} position={{ x: -1, y: 1 }} />
+            </div>
           </div>
-        </div>
+
           <div id='score'>
             <p>SCORE</p>
             <p>{score}</p>
           </div>
-          <div>
-          <button id='pauseBtn' onClick={handlePause}>Pause</button> <br />
-          <button id='resumeBtn' onClick={handleResume}>Resume</button>
-          </div>
+
+
         </div>
+
       </div>
+
+
+
       <div id='mobile-controls'>
         <div>
-          <button onClick={() => moveTetromino('left')}>Left</button>
-          <button onClick={() => moveTetromino('right')}>Right</button>
+          <HoldButton label='left' onHold={() => moveTetromino('left')} />
+          <HoldButton label='right' onHold={() => moveTetromino('right')} />
         </div>
         <div>
-          <button onClick={() => moveTetromino('down')}>Down</button>
-          <button onClick={rotateTetromino}>Rotate</button>
+          <HoldButton label='down' onHold={() => moveTetromino('down')} />
+          <HoldButton label='rotate' onHold={() => rotateTetromino} />
+        </div>
+        <div>
+          <button id='pauseResumeBtn' onClick={togglePause}>
+            {isPaused ? 'Resume' : 'Pause'}
+          </button>
+          <button id='startRestartBtn' onClick={resetGame}>
+            {gameStarted ? 'Restart' : 'Start'}
+          </button>
         </div>
       </div>
 
